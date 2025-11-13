@@ -36,3 +36,8 @@ It will automatically reload and print:
 ```
 Hello from TypeScript!
 ```
+
+
+## Shortcuts
+
+- control + Command + spaceBar = Add emoji in vscode

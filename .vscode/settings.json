@@ -15,6 +15,7 @@
     "source.organizeImports": "never"
   },
   "editor.fontSize": 14,
+  "editor.snippetSuggestions": "top",
   "editor.minimap.enabled": false,
   "search.exclude": {
     "**/*.code-search": true,
@@ -69,5 +70,17 @@
 
   "eslint.format.enable": true,
   "eslint.useFlatConfig": true,
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.next": true
+  },
+  "breadcrumbs.enabled": false,
+  "github.copilot.enable": {
+    "*": false,
+  }
 }
