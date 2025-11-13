@@ -2,7 +2,7 @@
 
 interface Test {
     name: string;
-    fn: () => void;
+    fn: () => void | Promise<void>; // to support also async fns (also removes "'await' has no effect on the type of this expression" lint error)
 }
 
 type AssertArgs = string | number | boolean;
@@ -19,16 +19,28 @@ const test = (name: string, fn: () => void) => {
     tests.push({ name, fn });
 };
 
-const runTests = () => {
-    tests.forEach(test => {
+/**
+ * To allow async functions you cannot use forEach
+ * because even if the tests functions are marked as async,
+ * the callback passed to forEach is not, so you get "await is only valid in top fns"
+ * 
+ * Fixed with "for of" loop - this respects async/await sequential flow
+ * 
+ * Notes:
+ *
+ * - forEach doesn’t await async callbacks — it just fires them and moves on. 
+ * - for...of is perfect for test runners, network calls, etc. (The loop pauses on each await)
+ */
+const runTests = async () => {
+    for (const test of tests) {
         try {
-            test.fn();
+            // Await in case is an async function
+            await test.fn();
             console.log(`✅ ${test.name}`);
-
         } catch (error) {
             console.log(`❌ ${test.name}: ${(error as Error).message}`);
         }
-    });
+    };
 };
 
 export {
@@ -36,3 +48,4 @@ export {
     assertEqual,
     runTests
 };
+
