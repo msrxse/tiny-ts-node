@@ -30,23 +30,40 @@ const test = (name: string, fn: () => void | Promise<void>) => {
 };
 
 /**
- * Behaviour differences when parallel
+ * Behavior differences when parallel
  * - Parallel execution means logs can appear in any order
  * - Shared state can cause race conditions
  * - If tests depends on global state,parallel execution could break them
  * - Tests must be isolated (timers and async tasks will overlap)
- */
+*/
 const runTestsInParallel = async () => {
+    // Keeping track of passed and failed tests
+    let passed = 0;
+    let failed = 0;
+    const startAll = performance.now();
+
     const promises = tests.map(async test => {
         try {
+            const duration = performance.now();
             await test.fn();
-            console.log(`✅ ${test.name}`);
+            passed++;
+            console.log(`✅ ${test.name} (${duration.toFixed(2)} ms)`);
+
         } catch (error) {
             console.log(`❌ ${test.name}: ${(error as Error).message}`);
+            failed++;
         }
     });
 
+
     await Promise.all(promises);
+
+    const totalDuration = performance.now() - startAll;
+    console.log('\n--- Summary ---');
+    console.log(`Passed: ${passed}`);
+    console.log(`Failed: ${failed}`);
+    console.log(`Total: ${passed + failed}`);
+    console.log(`Total time: ${totalDuration.toFixed(2)} ms`);
 };
 
 
