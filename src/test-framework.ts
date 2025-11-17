@@ -38,7 +38,14 @@ const runTests = async () => {
             await test.fn();
             console.log(`✅ ${test.name}`);
         } catch (error) {
+            // Error is a build in global, is part of the core language
+            // Error is any unless you are using strict, that makes it unknown, which is safer
+            // You can assert the type
             console.log(`❌ ${test.name}: ${(error as Error).message}`);
+            // Or you can narrow it
+            if (error instanceof Error) {
+                console.log(error.message);
+            }
         }
     };
 };

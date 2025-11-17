@@ -29,7 +29,8 @@ runTests();
  * 
  * What about assert?
  * ✅ How would you support async tests?
- * How would you group tests or show a summary ?
+ * How you’d run tests in parallel?
+ * How would you group tests or show a summary?
  * Could you add colored output or timing info? 
  * Can you make assertEqual show deep equality?
  */
