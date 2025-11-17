@@ -14,9 +14,19 @@ const assertEqual = (actual: AssertArgs, expected: AssertArgs) => {
 };
 
 const tests: Test[] = [];
+const groupStack: string[] = [];
 
-const test = (name: string, fn: () => void) => {
-    tests.push({ name, fn });
+const describe = (name: string, fn: () => void) => {
+    groupStack.push(name);
+    fn();
+    groupStack.pop();
+};
+
+const test = (name: string, fn: () => void | Promise<void>) => {
+    // To allow multiple describe nesting we join the groupStack into string separated by '>',
+    // then add '>' to the last one followed by the actual name of the test
+    const fullName = groupStack.length > 0 ? groupStack.join(' > ') + ' > ' + name : name;
+    tests.push({ name: fullName, fn });
 };
 
 /**
@@ -41,6 +51,7 @@ const runTestsInParallel = async () => {
 
 
 export {
+    describe,
     test,
     assertEqual,
     runTestsInParallel
