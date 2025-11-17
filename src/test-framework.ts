@@ -7,10 +7,25 @@ interface Test {
 
 type AssertArgs = string | number | boolean;
 
+const deepEqual = (a: unknown, b: unknown): boolean => {
+    /**
+     * This is about removing edge cases
+     * 1. Are they actually equal or return false
+     * 2. Are they they the same type (typeof) or return false
+     * 3. Remove special NULL case since null is an object
+     * 3.1 Care of special case NAN
+     * (below presume ordered)
+     * 4. If array, are they same length and array.every( call deppEqual recursive )
+     * 5. Are they actual objects: typeof + grab both keys + compare keys' lengths + and array.every( call deppEqual recursive )
+     */
+    return false;
+};
+
 const assertEqual = (actual: AssertArgs, expected: AssertArgs) => {
-    if (actual !== expected) {
+    // if (actual !== expected) {
+    if (!deepEqual(actual, expected))
+
         throw new Error(`${expected} is different than ${actual}`);
-    }
 };
 
 const tests: Test[] = [];

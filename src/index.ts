@@ -39,6 +39,6 @@ runTestsInParallel();
  * How to add max concurrency? (advanced follow-up)
  * ✅ How would you group tests or show a summary?
  * ✅ Could you add timing info? 
- * Can you make assertEqual show deep equality?
+ * ✅ Can you make assertEqual show deep equality?
  */
 
