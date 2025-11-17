@@ -19,6 +19,13 @@ const test = (name: string, fn: () => void) => {
     tests.push({ name, fn });
 };
 
+/**
+ * Behaviour differences when parallel
+ * - Parallel execution means logs can appear in any order
+ * - Shared state can cause race conditions
+ * - If tests depends on global state,parallel execution could break them
+ * - Tests must be isolated (timers and async tasks will overlap)
+ */
 const runTestsInParallel = async () => {
     const promises = tests.map(async test => {
         try {
